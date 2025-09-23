@@ -18,6 +18,7 @@ import { InterceptorService } from './services/interceptor.service';
 import { FooterComponent } from './components/footer/footer.component';
 import { ConsentComponent } from './components/consent/consent.component';
 import { CommonModule } from '@angular/common';
+import { TrackEventDirective } from './directives/track-event.directive';
 
 @NgModule({
     declarations: [
@@ -31,7 +32,8 @@ import { CommonModule } from '@angular/common';
         TrimCharactersPipe,
         CheckboxComponent,
         FooterComponent,
-        ConsentComponent
+        ConsentComponent,
+        TrackEventDirective
     ],
     imports: [
         CommonModule
@@ -47,7 +49,8 @@ import { CommonModule } from '@angular/common';
         TrimCharactersPipe,
         CheckboxComponent,
         FooterComponent,
-        ConsentComponent
+        ConsentComponent,
+        TrackEventDirective
     ],
     providers: [StorageService, AuthService, LfxHeaderService, InterceptorService]
 })

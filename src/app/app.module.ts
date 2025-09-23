@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +17,21 @@ import { IndividualContributorModule } from './modules/individual-contributor/in
 import { CorporateContributorModule } from './modules/corporate-contributor/corporate-contributor.module';
 import { FormsModule } from '@angular/forms';
 import { InterceptorService } from './shared/services/interceptor.service';
+import { LfxAnalyticsService } from './shared/services/lfx-analytics.service';
+
+// Add initialization factory
+export function initializeAnalytics(analyticsService: LfxAnalyticsService) {
+  return () => {
+    // Initialize analytics and track app start
+    analyticsService.trackEvent('Application Initialized', {
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+      app: 'easycla-contributor-console'
+    }).catch(error => {
+      console.error('Failed to track application initialization:', error);
+    });
+  };
+}
 
 @NgModule({
   declarations: [
@@ -44,6 +59,12 @@ import { InterceptorService } from './shared/services/interceptor.service';
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptorService,
       multi: true
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeAnalytics,
+      deps: [LfxAnalyticsService],
+      multi: true,
     },
     AlertService
   ],

@@ -14,6 +14,7 @@ import Url from 'url-parse';
 import { EnvConfig } from '../../config/cla-env-utils';
 import { AppSettings } from 'src/app/config/app-settings';
 import { StorageService } from './storage.service';
+import { LfxAnalyticsService } from './lfx-analytics.service';
 
 @Injectable({
   providedIn: 'root',
@@ -72,7 +73,8 @@ export class AuthService {
 
   constructor(
     private router: Router,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private analyticsService: LfxAnalyticsService
   ) {
 
     this.initializeApplication();
@@ -105,6 +107,12 @@ export class AuthService {
         this.setSession(user);
         this.setUserInHeader(user);
         this.userProfileSubject$.next(user);
+        // Identify user in analytics
+        if (user) {
+          this.analyticsService.identifyAuth0User(user).catch(error => {
+            console.error('Failed to identify user in analytics:', error);
+          });
+        }
       })
     );
   }
@@ -129,6 +137,11 @@ export class AuthService {
   }
 
   logout() {
+    // Reset analytics state before logout
+    this.analyticsService.reset().catch(error => {
+      console.error('Failed to reset analytics state:', error);
+    });
+
     const { query, fragmentIdentifier } = querystring.parseUrl(
       window.location.href,
       { parseFragmentIdentifier: true }
