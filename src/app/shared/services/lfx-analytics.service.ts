@@ -39,7 +39,6 @@ export class LfxAnalyticsService {
           url: window.location.href,
           title: document.title,
           referrer: document.referrer,
-          timestamp: new Date().toISOString(),
           ...properties
         };
 
@@ -58,7 +57,6 @@ export class LfxAnalyticsService {
     if (this.isInitialized && this.analytics) {
       try {
         const eventProperties = {
-          timestamp: new Date().toISOString(),
           url: window.location.href,
           path: window.location.pathname,
           ...properties
