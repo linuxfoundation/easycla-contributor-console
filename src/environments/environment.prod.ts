@@ -4,6 +4,7 @@
 export const environment = {
   production: true,
   lfxHeader: 'https://cdn.platform.linuxfoundation.org',
+  lfxSegmentAnalyticsUrl: 'https://lfx-segment.platform.linuxfoundation.org/latest/lfx-segment-analytics.min.js',
   ACCEPTABLE_USER_POLICY: 'https://communitybridge.platform.linuxfoundation.org/acceptable-use/',
   SERVICE_SPECIFIC_TERM: 'https://communitybridge.platform.linuxfoundation.org/service-terms/',
   PLATFORM_USER_AGREEMENT: 'https://communitybridge.platform.linuxfoundation.org/platform-use-agreement/',
