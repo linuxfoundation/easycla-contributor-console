@@ -1,0 +1,28 @@
+// Copyright The Linux Foundation and each contributor to CommunityBridge.
+// SPDX-License-Identifier: MIT
+
+.kubecon-banner {
+  display: block;
+  background-color: rgb(0, 148, 255);
+  color: white;
+  text-align: center;
+  height: 3.5rem;
+  font-size: 0.875rem;
+  line-height: 1.75rem;
+  margin-top: 60px;
+
+  a {
+    color: white;
+    text-decoration: underline;
+    white-space: nowrap;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  // Responsive styles
+  @media (min-width: 640px) {
+    height: 1.75rem;
+  }
+}
