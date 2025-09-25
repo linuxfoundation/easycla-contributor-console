@@ -51,7 +51,8 @@ function generateCSP(env, isDevServer) {
     'https://stats.g.doubleclick.net', // DoubleClick stats
     'https://lfx-segment.dev.platform.linuxfoundation.org', // LFX Segments Analytics (dev)
     'https://lfx-segment.platform.linuxfoundation.org', // LFX Segments Analytics (prod)
-    'https://api.segment.io' // Segment Analytics API
+    'https://api.segment.io', // Segment Analytics API
+    'https://cdn.segment.com', // Segment CDN for configurations
   ];
   let scriptSources = [SELF, UNSAFE_EVAL, UNSAFE_INLINE,
     'https://cdn.dev.platform.linuxfoundation.org/lfx-header-v2.js',
@@ -65,7 +66,8 @@ function generateCSP(env, isDevServer) {
     'https://cmp.osano.com', // Cookie consent
     'https://www.googletagmanager.com', // Google Tag Manager for Osano
     'https://lfx-segment.dev.platform.linuxfoundation.org', // LFX Segments Analytics (dev)
-    'https://lfx-segment.platform.linuxfoundation.org' // LFX Segments Analytics (prod)
+    'https://lfx-segment.platform.linuxfoundation.org', // LFX Segments Analytics (prod)
+    'https://cdn.segment.com' // Segment CDN for scripts and configurations
   ];
 
   const styleSources = [SELF, UNSAFE_INLINE, 'https://use.fontawesome.com/', 'https://communitybridge.org/'];
