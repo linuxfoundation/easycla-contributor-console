@@ -19,6 +19,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { ConsentComponent } from './components/consent/consent.component';
 import { CommonModule } from '@angular/common';
 import { TrackEventDirective } from './directives/track-event.directive';
+import { KubeconBannerComponent } from './components/kubecon-banner/kubecon-banner.component';
 
 @NgModule({
     declarations: [
@@ -33,7 +34,8 @@ import { TrackEventDirective } from './directives/track-event.directive';
         CheckboxComponent,
         FooterComponent,
         ConsentComponent,
-        TrackEventDirective
+        TrackEventDirective,
+        KubeconBannerComponent
     ],
     imports: [
         CommonModule
@@ -50,7 +52,8 @@ import { TrackEventDirective } from './directives/track-event.directive';
         CheckboxComponent,
         FooterComponent,
         ConsentComponent,
-        TrackEventDirective
+        TrackEventDirective,
+        KubeconBannerComponent
     ],
     providers: [StorageService, AuthService, LfxHeaderService, InterceptorService]
 })
