@@ -1,0 +1,10 @@
+<!-- Copyright The Linux Foundation and each contributor to CommunityBridge.
+ SPDX-License-Identifier: MIT
+ Assisted with Cursor, assisted with Claude AI -->
+
+<div class="kubecon-banner" *ngIf="text">
+  {{ text }}
+  <a *ngIf="ctaText && url" [href]="url" target="_blank" rel="noopener">
+    {{ ctaText }}
+  </a>
+</div>
