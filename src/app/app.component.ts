@@ -16,6 +16,12 @@ export class AppComponent {
   hasExpanded: boolean;
   links: any[];
 
+  kubeconBanner = {
+    text: 'Meet us in Amsterdam for KubeCon + CloudNativeCon Europe 2026 • Mar 23–26 •',
+    ctaText: 'Register now',
+    url: 'https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/register/?utm_source=cla-contributor-console&utm_medium=homepage&utm_campaign=18269725-KubeCon-EU-2026&utm_content=hero'
+  };
+
   constructor(private auth:AuthService, private route: ActivatedRoute){}
 
   onToggled() {
