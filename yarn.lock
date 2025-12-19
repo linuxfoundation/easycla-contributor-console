@@ -2300,10 +2300,10 @@
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.5.tgz#4fc56c15c580b9adb7dc3c333a134e540b44bfb1"
   integrity sha512-Vo+PSpZG2/fmgmiNzYK9qWRh8h/CHrwD0mo1h1DzL4yzHNSfWYujGTYsWGreD000gcgmZ7K4Ys6Tx9TxtsKdDw==
 
-"@linuxfoundation/lfx-ui-core@^0.0.19":
-  version "0.0.19"
-  resolved "https://registry.yarnpkg.com/@linuxfoundation/lfx-ui-core/-/lfx-ui-core-0.0.19.tgz#7ceee1cd6e13ea61ff0b96360225d157c8795de7"
-  integrity sha512-dcD81lhVj0epDXLRXiEY9oLnDoWunFDnj/1Q3jD0zNiSGAvXTHZpAnvzFHG2rm/01iTYjfv2yG6mFsgxQWD4xw==
+"@linuxfoundation/lfx-ui-core@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@linuxfoundation/lfx-ui-core/-/lfx-ui-core-0.1.0.tgz#0e19eab55bdf89f6cd96d2770d519f2b7bff3022"
+  integrity sha512-ydeTkbMROdzdhvpNbRGDQFleZsuXehQ2b9gW0ryoULCeBv7NB5h4KNe3rDGiBMdIXAB60470NzisLsC8c9Yn5Q==
 
 "@ng-bootstrap/ng-bootstrap@^12.1.2":
   version "12.1.2"
@@ -8218,7 +8218,7 @@ media-typer@0.3.0:
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==
 
-memfs@^3.2.2, memfs@^3.4.3:
+memfs@^3.4.3:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/memfs/-/memfs-3.6.0.tgz#d7a2110f86f79dd950a8b6df6d57bc984aa185f6"
   integrity sha512-EGowvkkgbMcIChjMTMkESFDbZeSh8xZ7kNSF0hAiAN4Jh6jgHCRS0Ga/+C8y6Au+oqpezRHCfPsmJ2+DwAgiwQ==
@@ -11571,18 +11571,7 @@ webidl-conversions@^3.0.0:
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-3.0.1.tgz#24534275e2a7bc6be7bc86611cc16ae0a5654871"
   integrity sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==
 
-webpack-dev-middleware@5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/webpack-dev-middleware/-/webpack-dev-middleware-5.3.0.tgz#8fc02dba6e72e1d373eca361623d84610f27be7c"
-  integrity sha512-MouJz+rXAm9B1OTOYaJnn6rtD/lWZPy2ufQCH3BPs8Rloh/Du6Jze4p7AeLYHkVi0giJnYLaSGDC7S+GM9arhg==
-  dependencies:
-    colorette "^2.0.10"
-    memfs "^3.2.2"
-    mime-types "^2.1.31"
-    range-parser "^1.2.1"
-    schema-utils "^4.0.0"
-
-webpack-dev-middleware@^5.3.0:
+webpack-dev-middleware@5.3.0, webpack-dev-middleware@^5.3.0, webpack-dev-middleware@^5.3.4:
   version "5.3.4"
   resolved "https://registry.yarnpkg.com/webpack-dev-middleware/-/webpack-dev-middleware-5.3.4.tgz#eb7b39281cbce10e104eb2b8bf2b63fce49a3517"
   integrity sha512-BVdTqhhs+0IfoeAf7EoH5WE+exCmqGerHfDM0IL096Px60Tq2Mn9MAbnaGUe6HiMa41KMCYF19gyzZmBcq/o4Q==

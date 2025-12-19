@@ -54,7 +54,7 @@
     "@angular/router": "~13.4.0",
     "@auth0/auth0-angular": "2.2.3",
     "@fortawesome/fontawesome-free": "^6.4.0",
-    "@linuxfoundation/lfx-ui-core": "^0.0.19",
+    "@linuxfoundation/lfx-ui-core": "^0.1.0",
     "@ng-bootstrap/ng-bootstrap": "^12.1.2",
     "@popperjs/core": "^2.11.8",
     "@silvermine/serverless-plugin-cloudfront-lambda-edge": "^2.1.1",
