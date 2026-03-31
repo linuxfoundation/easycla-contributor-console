@@ -115,7 +115,7 @@
     "dns-packet": "^5.4.0",
     "husky": "^8.0.3",
     "@angular/core": "^11.0.5",
-    "axios": "^0.30.0",
+    "axios": "0.30.3",
     "cookiejar": "^2.1.4",
     "degenerator": "^3.0.1",
     "follow-redirects": "^1.14.8",
