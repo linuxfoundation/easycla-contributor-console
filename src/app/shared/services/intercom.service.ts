@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 
 export interface IntercomBootOptions {
+  [key: string]: any;
   api_base?: string;
   app_id?: string;
   user_id?: string;
@@ -12,7 +13,6 @@ export interface IntercomBootOptions {
   email?: string;
   created_at?: number;
   intercom_user_jwt?: string;
-  [key: string]: any;
 }
 
 declare global {
@@ -45,8 +45,7 @@ export class IntercomService {
         if (options.user_id && !this.bootedWithIdentity) {
           this.shutdownForReboot();
         } else {
-          const { intercom_user_jwt: _jwt, app_id: _appId, api_base: _apiBase, ...userOptions } = options;
-          this.update(userOptions);
+          this.update(this.stripBootKeys(options));
           resolve();
           return;
         }
@@ -71,8 +70,7 @@ export class IntercomService {
             if (options.user_id && !this.bootedWithIdentity) {
               this.shutdownForReboot();
             } else {
-              const { intercom_user_jwt: _jwt, app_id: _appId, api_base: _apiBase, ...userOptions } = options;
-              this.update(userOptions);
+              this.update(this.stripBootKeys(options));
               resolve();
               return;
             }
@@ -81,7 +79,7 @@ export class IntercomService {
           this.isBooted = true;
 
           try {
-            const { intercom_user_jwt: _jwt, ...bootOptions } = options;
+            const bootOptions = this.stripJwt(options);
 
             window.Intercom('boot', {
               api_base: environment.intercomApiBase,
@@ -169,18 +167,6 @@ export class IntercomService {
     }
   }
 
-  private shutdownForReboot(): void {
-    if (typeof window !== 'undefined' && window.Intercom) {
-      try {
-        window.Intercom('shutdown');
-      } catch (error) {
-        console.warn('IntercomService: Shutdown for reboot failed', error);
-      }
-    }
-    this.isBooted = false;
-    this.bootedWithIdentity = false;
-  }
-
   public trackEvent(eventName: string, metadata?: Record<string, any>): void {
     if (typeof window !== 'undefined' && window.Intercom && this.isBooted) {
       try {
@@ -193,6 +179,32 @@ export class IntercomService {
 
   public isIntercomBooted(): boolean {
     return this.isBooted;
+  }
+
+  private shutdownForReboot(): void {
+    if (typeof window !== 'undefined' && window.Intercom) {
+      try {
+        window.Intercom('shutdown');
+      } catch (error) {
+        console.warn('IntercomService: Shutdown for reboot failed', error);
+      }
+    }
+    this.isBooted = false;
+    this.bootedWithIdentity = false;
+  }
+
+  private stripJwt(options: IntercomBootOptions): IntercomBootOptions {
+    const result = { ...options };
+    delete result.intercom_user_jwt;
+    return result;
+  }
+
+  private stripBootKeys(options: IntercomBootOptions): IntercomBootOptions {
+    const result = { ...options };
+    delete result.intercom_user_jwt;
+    delete result.app_id;
+    delete result.api_base;
+    return result;
   }
 
   private loadIntercomScript(): void {
