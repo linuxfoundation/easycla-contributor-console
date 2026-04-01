@@ -215,6 +215,7 @@ export class IntercomService {
     this.initializeIntercomFunction();
 
     window.intercomSettings = {
+      ...(window.intercomSettings || {}),
       api_base: environment.intercomApiBase,
       app_id: environment.intercomId,
     };
