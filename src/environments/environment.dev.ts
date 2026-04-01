@@ -8,4 +8,8 @@ export const environment = {
   ACCEPTABLE_USER_POLICY: 'https://communitybridge.dev.platform.linuxfoundation.org/acceptable-use/',
   SERVICE_SPECIFIC_TERM: 'https://communitybridge.dev.platform.linuxfoundation.org/service-terms/',
   PLATFORM_USER_AGREEMENT: 'https://communitybridge.dev.platform.linuxfoundation.org/platform-use-agreement/',
+  intercomId: 'mxl90k6y',
+  intercomApiBase: 'https://api-iam.intercom.io',
+  auth0IntercomClaim: 'http://lfx.dev/claims/intercom',
+  auth0UsernameClaim: 'https://sso.linuxfoundation.org/claims/username',
 };
