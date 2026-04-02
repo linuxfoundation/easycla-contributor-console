@@ -53,6 +53,11 @@ function generateCSP(env, isDevServer) {
     'https://lfx-segment.platform.linuxfoundation.org', // LFX Segments Analytics (prod)
     'https://api.segment.io', // Segment Analytics API
     'https://cdn.segment.com', // Segment CDN for configurations
+    'https://*.intercom.io', // Intercom API and WebSocket
+    'https://*.intercomcdn.com', // Intercom CDN
+    'https://*.intercom-messenger.com', // Intercom Messenger
+    'wss://*.intercom-messenger.com', // Intercom Messenger WebSocket
+    'wss://*.intercom.io', // Intercom WebSocket
   ];
   let scriptSources = [SELF, UNSAFE_EVAL, UNSAFE_INLINE,
     'https://cdn.dev.platform.linuxfoundation.org/lfx-header-v2.js',
@@ -67,10 +72,12 @@ function generateCSP(env, isDevServer) {
     'https://www.googletagmanager.com', // Google Tag Manager for Osano
     'https://lfx-segment.dev.platform.linuxfoundation.org', // LFX Segments Analytics (dev)
     'https://lfx-segment.platform.linuxfoundation.org', // LFX Segments Analytics (prod)
-    'https://cdn.segment.com' // Segment CDN for scripts and configurations
+    'https://cdn.segment.com', // Segment CDN for scripts and configurations
+    'https://widget.intercom.io', // Intercom widget script
+    'https://*.intercomcdn.com', // Intercom CDN scripts
   ];
 
-  const styleSources = [SELF, UNSAFE_INLINE, 'https://use.fontawesome.com/', 'https://communitybridge.org/'];
+  const styleSources = [SELF, UNSAFE_INLINE, 'https://use.fontawesome.com/', 'https://communitybridge.org/', 'https://*.intercomcdn.com'];
 
   if (isDevServer) {
     connectSources = [...connectSources, 'https://localhost:8100/sockjs-node/', 'wss://localhost:8100/sockjs-node/'];
@@ -102,7 +109,7 @@ function generateCSP(env, isDevServer) {
     // ],
     'script-src': scriptSources,
     'style-src': styleSources, // Unfortunately using Angular basically requires inline styles.
-    'font-src': [SELF, 'data:', 'https://use.fontawesome.com/', 'https://communitybridge.org/'],
+    'font-src': [SELF, 'data:', 'https://use.fontawesome.com/', 'https://communitybridge.org/', 'https://*.intercomcdn.com'],
     'connect-src': connectSources,
     'frame-ancestors': [NONE],
     'form-action': [NONE],
@@ -120,10 +127,13 @@ function generateCSP(env, isDevServer) {
       'https://linuxfoundation-staging.auth0.com',
       'https://linuxfoundation.auth0.com',
       'https://sso.linuxfoundation.org/',
-      'https://cmp.osano.com' // Cookie consent UI iframe
+      'https://cmp.osano.com', // Cookie consent UI iframe
+      'https://*.intercom.io', // Intercom iframes
+      'https://*.intercom-messenger.com', // Intercom Messenger iframes
+      'https://intercom-sheets.com', // Intercom Sheets
     ],
     'child-src': [],
-    'media-src': [],
+    'media-src': ['https://js.intercomcdn.com'],
     'manifest-src': [SELF],
     'object-src': ['data:', '*']
   };
