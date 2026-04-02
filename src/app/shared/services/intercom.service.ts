@@ -28,6 +28,7 @@ export class IntercomService {
   private isBooted = false;
   private isLoading = false;
   private bootedWithIdentity = false;
+  private scriptLoadFailed = false;
 
   public boot(options: IntercomBootOptions): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -62,6 +63,13 @@ export class IntercomService {
       }
 
       const checkLoaded = setInterval(() => {
+        if (this.scriptLoadFailed) {
+          clearInterval(checkLoaded);
+          clearTimeout(timeoutHandle);
+          this.isLoading = false;
+          reject(new Error('Intercom script failed to load — check network, CSP, or ad blockers'));
+          return;
+        }
         if (this.isLoaded && window.Intercom) {
           clearInterval(checkLoaded);
           clearTimeout(timeoutHandle);
@@ -232,6 +240,7 @@ export class IntercomService {
 
     script.onerror = error => {
       this.isLoading = false;
+      this.scriptLoadFailed = true;
       console.error('IntercomService: Failed to load script', error);
     };
 
