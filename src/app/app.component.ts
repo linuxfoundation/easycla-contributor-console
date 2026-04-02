@@ -18,12 +18,6 @@ export class AppComponent implements OnDestroy {
   hasExpanded: boolean;
   links: any[];
 
-  kubeconBanner = {
-    text: 'Meet us in Amsterdam for KubeCon + CloudNativeCon Europe 2026 • Mar 23–26 •',
-    ctaText: 'Register now',
-    url: 'https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/register/?utm_source=cla-contributor-console&utm_medium=homepage&utm_campaign=18269725-KubeCon-EU-2026&utm_content=hero'
-  };
-
   private intercomBootAttempted = false;
   private userProfileSub: Subscription;
 
