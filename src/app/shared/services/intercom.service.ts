@@ -54,6 +54,7 @@ export class IntercomService {
 
       if (!this.isLoaded && !this.isLoading) {
         this.isLoading = true;
+        this.scriptLoadFailed = false;
         this.loadIntercomScript();
       }
 
