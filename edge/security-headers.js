@@ -45,6 +45,7 @@ function generateCSP(env, isDevServer) {
     'https://easycla.lfx.linuxfoundation.org/',
     'https://contributor.easycla.lfx.linuxfoundation.org/',
     'https://cmp.osano.com', // Cookie consent management
+    'https://consent.api.osano.com', // Osano consent record API
     'https://www.google-analytics.com', // Google Analytics beacons
     'https://analytics.google.com', // Google Analytics 4
     'https://www.googletagmanager.com', // GTM fetch requests
@@ -69,6 +70,7 @@ function generateCSP(env, isDevServer) {
     'https://cdn.staging.platform.linuxfoundation.org/lfx-footer-no-zone.js',
     'https://cdn.platform.linuxfoundation.org/lfx-footer-no-zone.js',
     'https://cmp.osano.com', // Cookie consent
+    'https://www.google-analytics.com', // Google Analytics script
     'https://www.googletagmanager.com', // Google Tag Manager for Osano
     'https://lfx-segment.dev.platform.linuxfoundation.org', // LFX Segments Analytics (dev)
     'https://lfx-segment.platform.linuxfoundation.org', // LFX Segments Analytics (prod)
