@@ -21,6 +21,7 @@ import { LfxAnalyticsService } from './lfx-analytics.service';
 })
 export class AuthService {
   public openCLADialog$ = new BehaviorSubject<any>(false);
+  public cookiesBlocked$ = new BehaviorSubject<boolean>(false);
   auth0Options = {
     domain: EnvConfig.default['auth0-domain'], // e.g linuxfoundation-dev.auth0.com
     clientId: EnvConfig.default['auth0-clientId'],
@@ -109,6 +110,8 @@ export class AuthService {
         this.userProfileSubject$.next(user);
         // Identify user in analytics
         if (user) {
+          // Reset login attempts on successful authentication
+          this.resetLoginAttempts();
           this.analyticsService.identifyAuth0User(user).catch(error => {
             console.error('Failed to identify user in analytics:', error);
           });
@@ -123,6 +126,14 @@ export class AuthService {
   }
 
   login() {
+    // Check if max login attempts reached (prevents infinite loop when cookies are blocked)
+    const attempts = this.getLoginAttemptCount();
+    if (attempts >= AppSettings.MAX_LOGIN_ATTEMPTS) {
+      this.cookiesBlocked$.next(true);
+      return;
+    }
+    this.incrementLoginAttempts();
+
     // Need to increase timeout to 1500 as for slower network it gives an error
     // Cannot read property 'querySelector' of null
     // TODO: verify this still works
@@ -181,6 +192,11 @@ export class AuthService {
     );
   }
 
+  resetLoginAttempts(): void {
+    this.storageService.removeItem(AppSettings.LOGIN_ATTEMPT_COUNT);
+    this.cookiesBlocked$.next(false);
+  }
+
   private async localAuthSetup() {
     // This should only be called on app initialization
     // Set up local authentication streams
@@ -231,6 +247,16 @@ export class AuthService {
       this.login();
       return;
     }
+  }
+
+  private getLoginAttemptCount(): number {
+    const count = this.storageService.getItem(AppSettings.LOGIN_ATTEMPT_COUNT) as string;
+    return count ? parseInt(count, 10) : 0;
+  }
+
+  private incrementLoginAttempts(): void {
+    const currentCount = this.getLoginAttemptCount();
+    this.storageService.setItem(AppSettings.LOGIN_ATTEMPT_COUNT, currentCount + 1);
   }
 
   private getCookie(cname) {
