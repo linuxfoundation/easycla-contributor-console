@@ -26,6 +26,7 @@ export class ClaDashboardComponent implements OnInit {
   exitEasyCLA = 'exitEasyCLA';
   hasError: boolean;
   hasPrivateWindow: boolean;
+  hasCookiesBlocked = false;
   project = new ProjectModel();
 
 
@@ -73,10 +74,20 @@ export class ClaDashboardComponent implements OnInit {
       }
     });
 
+    // Subscribe to cookies blocked state
+    this.authService.cookiesBlocked$.subscribe((blocked) => {
+      this.hasCookiesBlocked = blocked;
+      if (blocked) {
+        this.alertService.error(
+          'Authentication failed. Please allow third-party cookies for this site in your browser settings, then refresh the page.'
+        );
+      }
+    });
+
     this.authService.loading$.subscribe((loading) => {
       if (!loading) {
         this.authService.isAuthenticated$.subscribe((authenticated) => {
-          if (!authenticated && !this.hasPrivateWindow) {
+          if (!authenticated && !this.hasPrivateWindow && !this.hasCookiesBlocked) {
             this.authService.login();
           }
         });

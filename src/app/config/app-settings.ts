@@ -49,4 +49,6 @@ export class AppSettings {
     public static GITLAB_DOMAIN = "gitlab.com";
     public static GITLAB = "Gitlab";
     public static SUPPORT_TICKET_LINK = 'https://jira.linuxfoundation.org/plugins/servlet/theme/portal/4/create/143';
+    public static LOGIN_ATTEMPT_COUNT = 'loginAttemptCount';
+    public static MAX_LOGIN_ATTEMPTS = 3;
 }
