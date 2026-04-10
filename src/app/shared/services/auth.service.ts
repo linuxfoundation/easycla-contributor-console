@@ -29,7 +29,7 @@ export class AuthService {
   };
 
   currentHref = window.location.href;
-  loading$ = new BehaviorSubject<any>(true);
+  loading$ = new BehaviorSubject<boolean>(true);
 
   // Create an observable of Auth0 instance of client
   auth0Client$ = (from(
