@@ -15,7 +15,7 @@
     "npm": ">=8.0.0"
   },
   "dependencies": {
-    "eslint": "^7.1.0",
+    "eslint": "^9.0.0",
     "graceful-fs": "^4.2.2",
     "kind-of": "^6.0.3",
     "webpack-cli": "^3.3.12"
