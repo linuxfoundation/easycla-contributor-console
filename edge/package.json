@@ -18,7 +18,7 @@
     "eslint": "^7.1.0",
     "graceful-fs": "^4.2.2",
     "kind-of": "^6.0.3",
-    "webpack-cli": "^3.3.12"
+    "webpack-cli": "^4.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
