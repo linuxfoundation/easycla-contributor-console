@@ -26,7 +26,7 @@ Once the CLA is signed, the GitHub pull request status is updated.
 
 ## Documentation
 
-Please see our [online product documentation](https://docs.linuxfoundation.org/lfx/v/v2/easycla) for a complete product
+Please see our [online product documentation](https://docs.linuxfoundation.org/lfx/easycla) for a complete product
 overview.
 
 ## Prerequisites
