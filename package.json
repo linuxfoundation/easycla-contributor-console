@@ -60,7 +60,7 @@
     "@silvermine/serverless-plugin-cloudfront-lambda-edge": "^2.1.1",
     "@types/node": "^18.16.0",
     "auth0-spa-js": "^1.6.5",
-    "aws-sdk": "2.1558.0",
+    "aws-sdk": "2.1692.0",
     "bootstrap": "^4.4.0",
     "detectincognitojs": "^1.5.0",
     "file-saver": "^2.0.5",
