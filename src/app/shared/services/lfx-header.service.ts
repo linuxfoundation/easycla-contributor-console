@@ -3,6 +3,7 @@
 
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
+import { IntercomService } from './intercom.service';
 import { EnvConfig } from '../../config/cla-env-utils';
 import { AppSettings } from '../../config/app-settings';
 
@@ -12,7 +13,7 @@ import { AppSettings } from '../../config/app-settings';
 export class LfxHeaderService {
   links: any[];
 
-  constructor(private auth: AuthService) {
+  constructor(private auth: AuthService, private intercomService: IntercomService) {
     this.setUserInLFxHeader();
     this.setLinks();
     this.setCallBackUrl();
@@ -65,6 +66,9 @@ export class LfxHeaderService {
       if (lfHeaderEl) {
         this.auth.userProfile$.subscribe((data) => {
           if (data) {
+            // The header logout redirects to Auth0 before userProfile$ emits null, so
+            // clear the Intercom session here. Must be set before authuser.
+            lfHeaderEl.beforeLogout = () => this.intercomService.shutdown();
             lfHeaderEl.authuser = data;
           }
         });
