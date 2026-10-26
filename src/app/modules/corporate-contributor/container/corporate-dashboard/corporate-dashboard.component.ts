@@ -447,6 +447,10 @@ export class CorporateDashboardComponent implements OnInit, OnDestroy {
     return this.signedOrganizations.length === 0 || this.showUnsigned;
   }
 
+  get addOrganizationVisible(): boolean {
+    return this.unsignedListVisible || this.unsignedTotal === 0;
+  }
+
   get hiddenUnsignedCount(): number {
     return Math.max(0, this.unsignedTotal - UNSIGNED_DISPLAY_LIMIT);
   }

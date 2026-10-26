@@ -248,4 +248,59 @@ describe('CorporateDashboardComponent', () => {
             'Not listed? + Add your organization'
         );
     });
+
+    describe('"Add your organization"', () => {
+        const addOrganization = () => element().querySelector('.footer .add-organization');
+
+        it('stays hidden while unsigned matches wait behind Show more', () => {
+            showResults([org('Acme Unsigned'), org('Acme Signed', { ccla_enabled: true })]);
+
+            expect(addOrganization()).toBeNull();
+            expect(element().querySelector('.footer .legend')).not.toBeNull();
+        });
+
+        it('appears once Show more is clicked', () => {
+            showResults([org('Acme Unsigned'), org('Acme Signed', { ccla_enabled: true })]);
+            showMoreButton().click();
+            fixture.detectChanges();
+
+            expect(addOrganization()).not.toBeNull();
+        });
+
+        it('appears after Show more when the unsigned list is capped', () => {
+            showResults([org('Acme Signed', { ccla_enabled: true }), ...unsignedOrgs(53)]);
+            showMoreButton().click();
+            fixture.detectChanges();
+
+            expect(addOrganization()).not.toBeNull();
+        });
+
+        it('shows at once when no match has signed', () => {
+            showResults(unsignedOrgs(3));
+
+            expect(addOrganization()).not.toBeNull();
+        });
+
+        it('shows at once when every match has signed', () => {
+            showResults([org('Acme Signed', { ccla_enabled: true })]);
+
+            expect(addOrganization()).not.toBeNull();
+        });
+
+        it('shows when nothing matches', () => {
+            showResults([]);
+
+            expect(addOrganization()).not.toBeNull();
+        });
+
+        it('hides again after a new search collapses the list', () => {
+            showResults([org('Acme Unsigned'), org('Acme Signed', { ccla_enabled: true })]);
+            showMoreButton().click();
+            fixture.detectChanges();
+
+            showResults([org('Acme Other'), org('Acme Signed', { ccla_enabled: true })]);
+
+            expect(addOrganization()).toBeNull();
+        });
+    });
 });
