@@ -5,6 +5,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <!-- Synchronous on purpose: airgap.js must run before any other script so it can regulate them.
+         src must match LFXFooter.TRANSCEND_SCRIPT_URL in @linuxfoundation/lfx-ui-core so the footer doesn't inject it again. -->
+    <script src="https://transcend-cdn.com/cm/f484e2d0-ad2e-43a9-9d64-d07f6fa20966/airgap.js" data-cfasync="false" data-prompt="auto"></script>
     <title>EasyCLA</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
