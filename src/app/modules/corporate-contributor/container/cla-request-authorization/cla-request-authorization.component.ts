@@ -112,6 +112,7 @@ export class ClaRequestAuthorizationComponent implements OnInit {
     const project: ProjectModel = JSON.parse(this.storageService.getItem(AppSettings.PROJECT));
     const data = {
       companyName: this.company.companyName,
+      companySFID: this.company.companyExternalID,
       claGroupID: project.project_id,
       userID: this.userId,
       list: this.getSelectedCLAManagers()
