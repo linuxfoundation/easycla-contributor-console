@@ -45,6 +45,7 @@ describe('ClaRequestAuthorizationComponent', () => {
         spyOn(component, 'getSelectedCLAManagers').and.returnValue([]);
         spyOn(component, 'showDialogModal');
         component.company = JSON.parse(items[AppSettings.SELECTED_COMPANY]);
+        component.managers.list = [];
 
         component.notifyCLAManagers(null);
 
