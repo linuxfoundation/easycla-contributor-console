@@ -18,6 +18,7 @@ import {
   CompanyModel,
   OrganizationModel,
 } from 'src/app/core/models/organization';
+import { existingCompanySFID } from 'src/app/core/models/company-conflict';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { UserModel } from 'src/app/core/models/user';
 import { LoaderService } from 'src/app/shared/services/loader.service';
@@ -100,6 +101,12 @@ export class ConfigureClaManagerModalComponent implements OnInit {
         this.getOrganizationInformation(response.companyID);
       },
       (exception) => {
+        const existingSFID = existingCompanySFID(exception);
+        if (existingSFID) {
+          this.storageService.removeItem(AppSettings.NEW_ORGANIZATIONS);
+          this.getOrganizationInformation(existingSFID);
+          return;
+        }
         this.title = 'Request Failed';
         this.message = exception.error.Message
           ? exception.error.Message
