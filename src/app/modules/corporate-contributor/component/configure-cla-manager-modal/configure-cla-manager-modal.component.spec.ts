@@ -101,6 +101,26 @@ describe('ConfigureClaManagerModalComponent', () => {
     expect(modalService.open).not.toHaveBeenCalled();
   }));
 
+  it('keeps the pending organization when the existing company never loads after a 409', fakeAsync(() => {
+    claContributorService.addCompany.and.returnValue(
+      throwError(new HttpErrorResponse({
+        status: 409,
+        error: { Message: 'organization already exists', companyID: EASYCLA_ID, companyExternalID: SFID },
+      }))
+    );
+    claContributorService.getOrganizationDetails.and.returnValue(
+      throwError(new HttpErrorResponse({ status: 404, error: { Message: 'not found' } }))
+    );
+
+    createAndRunCreate();
+
+    expect(claContributorService.getOrganizationDetails).toHaveBeenCalledTimes(AppSettings.MAX_FAILED_COUNT);
+    expect(component.title).toBe('Request Failed');
+    expect(modalService.open).toHaveBeenCalledWith(component.errorModal, jasmine.any(Object));
+    expect(store.has(AppSettings.NEW_ORGANIZATIONS)).toBeTrue();
+    expect(component.manageAuthRedirection).not.toHaveBeenCalled();
+  }));
+
   it('keeps the Request Failed dialog when the 409 carries no company ids', fakeAsync(() => {
     claContributorService.addCompany.and.returnValue(
       throwError(new HttpErrorResponse({

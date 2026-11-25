@@ -86,6 +86,25 @@ describe('IdentifyClaManagerModalComponent', () => {
     expect(alertService.error).not.toHaveBeenCalled();
   });
 
+  it('keeps the pending organization when the existing company never loads after a 409', () => {
+    claContributorService.addCompany.and.returnValue(
+      throwError(new HttpErrorResponse({
+        status: 409,
+        error: { Message: 'organization already exists', companyID: EASYCLA_ID, companyExternalID: SFID },
+      }))
+    );
+    claContributorService.getOrganizationDetails.and.returnValue(
+      throwError(new HttpErrorResponse({ status: 404, error: { message: 'not found' } }))
+    );
+
+    component.onClickSubmit();
+
+    expect(claContributorService.getOrganizationDetails).toHaveBeenCalledTimes(AppSettings.MAX_FAILED_COUNT);
+    expect(component.title).toBe('Request Failed');
+    expect(store.has(AppSettings.NEW_ORGANIZATIONS)).toBeTrue();
+    expect(component.inviteCLAManager).not.toHaveBeenCalled();
+  });
+
   it('keeps the error toast when the 409 carries no company ids', () => {
     claContributorService.addCompany.and.returnValue(
       throwError(new HttpErrorResponse({

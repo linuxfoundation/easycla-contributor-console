@@ -96,7 +96,6 @@ export class IdentifyClaManagerModalComponent implements OnInit {
       (exception) => {
         const existingSFID = existingCompanySFID(exception);
         if (existingSFID) {
-          this.storageService.removeItem(AppSettings.NEW_ORGANIZATIONS);
           this.getOrganizationInformation(existingSFID);
           return;
         }
@@ -109,6 +108,7 @@ export class IdentifyClaManagerModalComponent implements OnInit {
   getOrganizationInformation(companySFID) {
     this.claContributorService.getOrganizationDetails(companySFID).subscribe(
       (response) => {
+        this.storageService.removeItem(AppSettings.NEW_ORGANIZATIONS);
         this.storageService.setItem(AppSettings.SELECTED_COMPANY, response);
         this.inviteCLAManager(false);
       },
