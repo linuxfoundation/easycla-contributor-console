@@ -9,6 +9,7 @@ import { StorageService } from 'src/app/shared/services/storage.service';
 import { UserModel } from 'src/app/core/models/user';
 import { ProjectModel } from 'src/app/core/models/project';
 import { CompanyModel, OrganizationModel } from 'src/app/core/models/organization';
+import { existingCompanySFID } from 'src/app/core/models/company-conflict';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { EmailValidator } from 'src/app/shared/validators/email-validator';
 import { AppSettings } from 'src/app/config/app-settings';
@@ -93,6 +94,11 @@ export class IdentifyClaManagerModalComponent implements OnInit {
         this.getOrganizationInformation(response.companyID);
       },
       (exception) => {
+        const existingSFID = existingCompanySFID(exception);
+        if (existingSFID) {
+          this.getOrganizationInformation(existingSFID);
+          return;
+        }
         const msg = exception.error.Message ? exception.error.Message : exception.error.message;
         this.alertService.error(msg);
       }
@@ -102,6 +108,7 @@ export class IdentifyClaManagerModalComponent implements OnInit {
   getOrganizationInformation(companySFID) {
     this.claContributorService.getOrganizationDetails(companySFID).subscribe(
       (response) => {
+        this.storageService.removeItem(AppSettings.NEW_ORGANIZATIONS);
         this.storageService.setItem(AppSettings.SELECTED_COMPANY, response);
         this.inviteCLAManager(false);
       },
