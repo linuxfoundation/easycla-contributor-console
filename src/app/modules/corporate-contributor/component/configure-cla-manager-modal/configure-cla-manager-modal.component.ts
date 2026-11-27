@@ -19,6 +19,7 @@ import {
   OrganizationModel,
 } from 'src/app/core/models/organization';
 import { existingCompanySFID } from 'src/app/core/models/company-conflict';
+import { orgLensRedirectURL } from 'src/app/core/models/org-lens';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { UserModel } from 'src/app/core/models/user';
 import { LoaderService } from 'src/app/shared/services/loader.service';
@@ -286,17 +287,52 @@ export class ConfigureClaManagerModalComponent implements OnInit {
     } else {
       this.modalService.dismissAll();
       this.loaderService.show();
-      const corporateUrl = this.claContributorService.getLFXCorporateURL();
-      if (corporateUrl !== '') {
-        this.storageService.removeItem(AppSettings.ACTION_TYPE);
-        window.open(corporateUrl, '_self');
-      } else {
-        this.alertService.error(
-          'Error occurred during redirecting to the corporate console.'
-        );
-        this.loaderService.hide();
-      }
+      this.redirectToClaManagerConsole();
     }
+  }
+
+  redirectToClaManagerConsole() {
+    const claGroupId = JSON.parse(
+      this.storageService.getItem(AppSettings.PROJECT_ID)
+    );
+    const companyId = this.company?.companyID;
+    if (!companyId || !claGroupId) {
+      this.redirectToCorporateConsole();
+      return;
+    }
+    this.claContributorService.getOrgLens(companyId, claGroupId).subscribe(
+      (response) => {
+        const lensUrl = orgLensRedirectURL(response);
+        if (lensUrl) {
+          this.storageService.removeItem(AppSettings.ACTION_TYPE);
+          this.loaderService.show();
+          this.navigateTo(lensUrl);
+        } else {
+          this.redirectToCorporateConsole();
+        }
+      },
+      () => {
+        this.redirectToCorporateConsole();
+      }
+    );
+  }
+
+  redirectToCorporateConsole() {
+    const corporateUrl = this.claContributorService.getLFXCorporateURL();
+    if (corporateUrl !== '') {
+      this.storageService.removeItem(AppSettings.ACTION_TYPE);
+      this.loaderService.show();
+      this.navigateTo(corporateUrl);
+    } else {
+      this.alertService.error(
+        'Error occurred during redirecting to the corporate console.'
+      );
+      this.loaderService.hide();
+    }
+  }
+
+  navigateTo(url: string) {
+    window.open(url, '_self');
   }
 
   redirectToAuth0() {

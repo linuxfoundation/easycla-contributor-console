@@ -17,6 +17,7 @@ import {AppSettings} from 'src/app/config/app-settings';
 import {StorageService} from 'src/app/shared/services/storage.service';
 import {GerritUserModel} from '../models/gerrit';
 import {CompanyAdminDesigneeModel, CompnayAdminListModel} from '../models/company-admin-designee';
+import {OrgLensModel} from '../models/org-lens';
 import {EnvConfig} from 'src/app/config/cla-env-utils';
 
 declare const require: any;
@@ -179,6 +180,11 @@ export class ClaContributorService {
   addAsCLAManagerDesignee(companyId: string, projectId: string, data: any): Observable<any> {
     const url = this.getV4Endpoint('/v4/company/' + companyId + '/claGroup/' + projectId + '/cla-manager-designee');
     return this.httpClient.post<any>(url, data);
+  }
+
+  getOrgLens(companyId: string, claGroupId: string): Observable<OrgLensModel> {
+    const url = this.getV3Endpoint('/v3/company/' + companyId + '/cla-group/' + claGroupId + '/org-lens');
+    return this.httpClient.get<OrgLensModel>(url);
   }
 
   hasRoleAssigned(companyId: string, projectId: string, userLFID: string): Observable<any> {

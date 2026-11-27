@@ -35,6 +35,8 @@ describe('ConfigureClaManagerModalComponent', () => {
     claContributorService = jasmine.createSpyObj('ClaContributorService', [
       'addCompany',
       'getOrganizationDetails',
+      'getOrgLens',
+      'getLFXCorporateURL',
     ]);
     storageService = jasmine.createSpyObj('StorageService', ['getItem', 'setItem', 'removeItem']);
     storageService.getItem.and.callFake((key: string) => (store.get(key) ?? null) as any);
@@ -138,4 +140,73 @@ describe('ConfigureClaManagerModalComponent', () => {
     expect(store.has(AppSettings.NEW_ORGANIZATIONS)).toBeTrue();
     expect(component.manageAuthRedirection).not.toHaveBeenCalled();
   }));
+
+  describe('proceeding to the CLA Manager console after the designee step', () => {
+    const CLA_GROUP_ID = '00000000-0000-4000-8000-000000000001';
+    const LENS_URL = 'https://app.example.org/org/' + SFID + '/easycla/' + CLA_GROUP_ID;
+    const CORPORATE_URL = 'https://corporate.example.org/company/dashboard';
+
+    function createDesignee() {
+      store.delete(AppSettings.NEW_ORGANIZATIONS);
+      store.set(AppSettings.PROJECT_ID, JSON.stringify(CLA_GROUP_ID));
+      store.set(AppSettings.ACTION_TYPE, JSON.stringify(AppSettings.SIGN_CLA));
+      store.set(AppSettings.SELECTED_COMPANY, JSON.stringify(ORGANIZATION));
+      createAndRunCreate();
+      component.hasCLAManagerDesignee = true;
+      spyOn(component, 'navigateTo');
+      claContributorService.getLFXCorporateURL.and.returnValue(CORPORATE_URL);
+    }
+
+    it('opens the Company lens URL the backend returns', fakeAsync(() => {
+      createDesignee();
+      claContributorService.getOrgLens.and.returnValue(of({ orgLensURL: LENS_URL } as any));
+
+      component.onClickProceedModalBtn();
+
+      expect(claContributorService.getOrgLens).toHaveBeenCalledOnceWith(EASYCLA_ID, CLA_GROUP_ID);
+      expect(component.navigateTo).toHaveBeenCalledOnceWith(LENS_URL);
+      expect(claContributorService.getLFXCorporateURL).not.toHaveBeenCalled();
+      expect(store.has(AppSettings.ACTION_TYPE)).toBeFalse();
+    }));
+
+    it('opens the Corporate Console when the lens URL is empty', fakeAsync(() => {
+      createDesignee();
+      claContributorService.getOrgLens.and.returnValue(of({ orgLensURL: '' } as any));
+
+      component.onClickProceedModalBtn();
+
+      expect(component.navigateTo).toHaveBeenCalledOnceWith(CORPORATE_URL);
+      expect(store.has(AppSettings.ACTION_TYPE)).toBeFalse();
+    }));
+
+    it('opens the Corporate Console when the lens lookup fails', fakeAsync(() => {
+      createDesignee();
+      claContributorService.getOrgLens.and.returnValue(
+        throwError(new HttpErrorResponse({ status: 404, error: { Message: 'cla group not found' } }))
+      );
+
+      component.onClickProceedModalBtn();
+
+      expect(component.navigateTo).toHaveBeenCalledOnceWith(CORPORATE_URL);
+    }));
+
+    it('opens the Corporate Console when the lens URL is not https', fakeAsync(() => {
+      createDesignee();
+      claContributorService.getOrgLens.and.returnValue(of({ orgLensURL: 'javascript:alert(1)' } as any));
+
+      component.onClickProceedModalBtn();
+
+      expect(component.navigateTo).toHaveBeenCalledOnceWith(CORPORATE_URL);
+    }));
+
+    it('opens the Corporate Console without a lookup when the CLA group is unknown', fakeAsync(() => {
+      createDesignee();
+      store.delete(AppSettings.PROJECT_ID);
+
+      component.onClickProceedModalBtn();
+
+      expect(claContributorService.getOrgLens).not.toHaveBeenCalled();
+      expect(component.navigateTo).toHaveBeenCalledOnceWith(CORPORATE_URL);
+    }));
+  });
 });

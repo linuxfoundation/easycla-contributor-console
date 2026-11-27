@@ -4,7 +4,8 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ClaContributorService } from './cla-contributor.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { of } from 'rxjs';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StorageService } from 'src/app/shared/services/storage.service';
@@ -25,6 +26,20 @@ describe('ClaContributorService', () => {
 
     it('should be created', () => {
         expect(service).toBeTruthy();
+    });
+
+    describe('getOrgLens', () => {
+        it('asks the v3 API for the lens of the company and CLA Group', () => {
+            const httpClient = TestBed.inject(HttpClient);
+            spyOn(httpClient, 'get').and.returnValue(of({}));
+
+            service.getOrgLens('00000000-0000-4000-8000-000000000000', '00000000-0000-4000-8000-000000000001').subscribe();
+
+            expect(httpClient.get).toHaveBeenCalledOnceWith(
+                new URL(service.baseURL + '/v3/company/00000000-0000-4000-8000-000000000000' +
+                    '/cla-group/00000000-0000-4000-8000-000000000001/org-lens').toString()
+            );
+        });
     });
 
     describe('getLFXCorporateURL', () => {
